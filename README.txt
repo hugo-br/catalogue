@@ -1,5 +1,4 @@
 CATALOG PROJECT  version 1.0.0 07/28/2015
-Author : Hugo Boutet Romanowski
 
 GENRERAL USAGE NOTES
 -------------------------------------------------
@@ -47,6 +46,3 @@ INSTALLATION
 
 5. To add, edit, delete item or categories
 	You need to log in with Facebook or Google account
-
-
-Copyright 2015 - Hugo Boutet Romanowski for Udacity. 
