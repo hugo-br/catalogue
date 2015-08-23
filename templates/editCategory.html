@@ -1,0 +1,32 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class="edit">
+	<h1><span style="color:#46b8da;">Edit&nbsp;</span>{{category.name}}</h1>
+	
+	<!-- Form to edit a Category -->
+	<form action="{{ url_for('editCategory', category_id = category.id)}}" method = 'post'>
+	<!-- Name -->
+	  <p class="editTitles">Name : </p>
+	  <input type ='text' size='30' name='name' class="form-control" value = '{{category.name}}' required/></br></br>
+	<!-- Description -->
+	  <p class="editTitles">Description :</p>	
+	   <textarea name="description" class="description" required> {{category.description}} </textarea>
+		</br></br>	
+	<!-- Submit -->	
+	  <input type='submit' class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit this category"  value='Edit'>
+	</form>
+	</br></br>
+	
+	 <a href = '/view/category/{{category.id}}' data-toggle="tooltip" data-placement="right" title="Return to the category page" > Cancel </a>
+	 
+</div>
+
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
+
+
+{% endblock %}

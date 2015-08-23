@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+{% block content %}
+
+<!-- Show name, picture and email of the user -->
+<div class="row">
+  <div class="col-lg-4"></div>
+  <div class="col-lg-4 join-us">
+	<h2 class="join-title"> Thanks for your commitment {{ name }} </h2>
+	<p> Let's make the world a better place with clean tooth </p>
+	<img class="img-responsive profil-pic" src="{{picture}}"/>
+	<div class="panel panel-default">
+	   <div class="panel-body"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;  &nbsp;{{ name }} </div>
+	   <div class="panel-body"><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;  &nbsp;{{ email }} </div>
+	</div>
+  </div>
+  <div class="col-lg-4"></div>
+</div>	
+
+
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div id="candy-page">
+<!-- Options for adding a new category for private users only -->
+	<div class="row">
+	  <div class="col-lg-2"></div>
+	  <div class="col-lg-8">
+	  
+		<!-- Add a Candy -->
+		<button type="button" class="btn btn-success" id="addCandy"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;&nbsp;Add a Candy</button>
+		
+		<!-- Edit a Candy -->
+		 <div class="dropdown">
+			<button class="btn btn-info dropdown-toggle" id="menuEdit" type="button" data-toggle="dropdown">
+			<span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
+			Edit a Candy
+			<span class="caret"></span></button>
+			<!-- Fullfill the menu with the item on the page -->
+			<ul class="dropdown-menu" role="menu" aria-labelledby="menuEdit">
+			{% for z in query %}
+			  <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ url_for('editCandy', candy_id = z.Candy.id) }}">{{z.Candy.name}}</a></li>  
+			{% endfor %}
+			</ul>
+		  </div>
+		 
+		 <!-- Delete a Candy -->
+		 <div class="dropdown">
+			<button class="btn btn-danger dropdown-toggle" id="menuDelete" type="button" data-toggle="dropdown">
+			<span class="glyphicon glyphicon-minus-sign"></span>&nbsp;&nbsp;
+			Delete a Candy
+			<span class="caret"></span></button>
+			<!-- Fullfill the menu with the item on the page -->
+			<ul class="dropdown-menu" role="menu" aria-labelledby="menuDelete">
+			{% for j in query %}
+			  <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ url_for('deleteCandy', candy_id = j.Candy.id) }}">{{j.Candy.name}}</a></li>  
+			{% endfor %}
+			</ul>
+		  </div>
+		  
+		  
+	  </div>
+	  <div class="col-lg-2"></div>
+	</div>
+	</div>
+
+<!-- Table of candies -->
+	<div class="container">
+	  <div class="Tableheader">
+		<div><h5 onclick="orderby('name')">Name</h5></div>
+		<div>&nbsp;</div>
+		<div><h5 onclick="orderby('cavity')">Cavity Score</h5></div>
+		<div><h5 onclick="orderby('category')">Category</h5></div>
+	  </div>
+	{% for i in query %}
+	<div class="product">
+		<div class="col-md-3"><a href="{{ url_for('seeOneCandy', candy_id = i.Candy.id) }}"><span class="candyName">{{i.Candy.name}}</span></a></div>
+		<div class="col-md-3"><img src="{{i.Candy.image}}" alt="{{i.Candy.name}}" class="imgCandy" /></div>
+		<div class="col-md-3 score"><span>{{i.Candy.cavity}}</span></div>
+		<div class="col-md-3"><a href="{{ url_for('seeOneCategory', category_id = i.Category.id) }}"><span class="category-Name">{{i.Category.name}}</span></a></div>
+	</div>	
+	{% endfor %}
+	</div>
+
+<script>
+
+// Use the filters to redirect 
+function orderby(param){
+var page = '{{ pagination.page }}';
+	switch (param) {
+		case 'name':
+			window.location.href = "/candy";
+			break;
+		case 'cavity':
+			window.location.href = "/candy?orderby=cavity";
+			break;
+		case 'category':
+			window.location.href = "/candy/page/"+page+"?orderby=categories";
+			break;
+		default:
+			break;
+	}
+}
+
+$( document ).ready(function() {
+  $(".col-md-3.score").each(function(){
+		var score = $(this).html();
+		score= score.replace(/\<span\>|\<\/span\>/gi, "");
+		score = Number(score);
+		if (score >= 0 && score < 2 ) {
+			$(this).css({'color':'#06EC06', 'text-shadow':'1px 1px 2px black, 0 0 15px #06EC06, 0 0 5px white'});
+		}
+		else if ( score >= 2 && score < 4 ) {
+			$(this).css({'color':'#5cb85c', 'text-shadow':'1px 1px 2px black, 0 0 15px #5cb85c, 0 0 5px white'});
+		}
+		else if ( score >= 4 && score < 6 ) {
+			$(this).css({'color':'#5bc0de', 'text-shadow':'1px 1px 2px black, 0 0 15px #5bc0de, 0 0 5px white'});
+		}
+		else if ( score >= 6 && score < 8 ) {
+			$(this).css({'color':'#EF8A27', 'text-shadow':'1px 1px 2px black, 0 0 15px #EF8A27, 0 0 5px white'});
+		}
+		else {
+			$(this).css({'color':'#F40E17', 'text-shadow':'1px 1px 2px black, 0 0 15px #F40E17, 0 0 5px white'});
+		}
+  });
+ });
+ 
+// Go to new category page
+ $("#addCandy").click(function(){
+	window.location.href = "/new/candy";
+ });
+
+</script>
+
+<!-- Pagination, show if 1, else hide it -->
+{% if showPagination == 1 %}
+  <ul class="pagination" class="pagination pagination-lg">
+    {% if pagination.has_prev %}
+	<li><a id="prev" href="{{ url_for_other_page(pagination.page - 1) }}">&laquo; Previous</a></li>
+	<script>
+		// change the link of they have a valid location seach attribute
+		var strPrev = '/candy/page/{{pagination.page - 1}}'+location.search ; 
+		document.getElementById("prev").setAttribute("href",strPrev);
+	</script>
+  {% endif %}
+  
+  {%- for page in pagination.iter_pages() %}
+    {% if page %}
+      {% if page != pagination.page %}
+        <li><a id="page{{page}}" href="{{ url_for_other_page(page) }}">{{ page }}</a></li>
+		<script>
+		// For each page give a link + the location.seach
+		  var strLink = '/candy/page/{{page}}'+location.search ; 
+		  document.getElementById("page{{page}}").setAttribute("href",strLink);
+		</script>
+      {% else %}
+	   <!-- Current Page -->
+        <li><a href="#">{{ page }}</a></li>
+      {% endif %}
+    {% endif %}
+  {%- endfor %}
+
+  {% if pagination.has_next %}
+    <li><a id="next" href="{{ url_for_other_page(pagination.page + 1)}}">Next &raquo;</a></li>
+		<script>
+		  var strNext = '/candy/page/{{pagination.page + 1}}'+location.search ; 
+		  document.getElementById("next").setAttribute("href", strNext);
+		</script>
+  {% endif %}
+
+  </ul>
+  {% endif %}
+
+
+{% endblock %}
+
+<!-- For Pagination -->
+
+
+

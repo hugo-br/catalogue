@@ -1,0 +1,50 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class="row">
+<div class="col-lg-4">
+</div>
+<div class="col-lg-4">
+	<h1><span style="color:#5cb85c;">Add</span> a new Category</h1>
+	
+	<!-- Form to add a new category -->
+	<form action="#" method = 'post' enctype="multipart/form-data">
+	<p class="editTitles">Name:</p>
+		<input type ='text' size='30' name='name' placeholder = 'Enter a name' class="form-control" required/></br></br>
+		
+	<p class="editTitles">Description : </p>
+		<textarea placeholder='Description of the category'  name='description' class="description" required/></textarea></br></br>
+	<p class="editTitles" data-toggle="tooltip" data-placement="top"
+	title="First, you must put the image in the server. The path file for category must be '/static/images/category/'. Add the name file at the end of the path in the input below.">
+	Path of the picture :</p>
+		<input type='text' name='image' value="/static/images/category/" class="form-control" pattern="^/static/images/category/(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\.(?:jpg|gif|png))(?:\?([^#]*))?(?:#(.*))?" />
+		</br></br>
+		
+	<input type='submit' class="btn btn-success" value='Add Category'> &nbsp;&nbsp;&nbsp;&nbsp;
+	<button type="btn btn-default" id="reset"/>Reset</button>
+	</form>
+
+	</br></br>
+ <a href = '/category'> Cancel </a> 
+ 
+</div>
+
+<div class="col-lg-4">
+</div>
+
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+	
+// Function to reset the form	
+$("#reset").click(function(){
+	$("input[type=text], textarea ").each(function(){
+		$(this).val("");
+	})
+});	
+	
+});
+</script>
+
+
+{% endblock %}

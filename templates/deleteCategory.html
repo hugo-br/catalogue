@@ -1,0 +1,74 @@
+{% extends "main.html" %}
+{% block content %}
+
+
+<div class="edit">
+	<h1>Do you <span style="color:#d43f3a;">really want to delete</span> this category :</br> {{category.name}} ? </h1>
+    
+	<form action="#" method = 'post' id="deleteCategory">
+	<!-- Information about this category -->
+		<p><span class="editTitles">Name:</span> {{category.name}} </p>
+		</br>
+		<p><span class="editTitles">Description : </span><br>
+		{{category.description}}</p>
+		</br></br></br>
+    </form>
+  </br></br>
+  
+<!-- On click a model pop-up will be shown for confirmation -->
+	<button data-toggle="modal" data-target="#myModal" class="btn btn-danger" data-toggle="tooltip" data-placement="top" 
+	  title="This button will delete this category permanently"/>
+	  <span class="glyphicon glyphicon-remove-sign"></span>
+	  Delete
+	</button>
+	
+	<!-- Cancel button -->
+	 <a href = '/view/category/{{category.id}}'data-toggle="tooltip" data-placement="right" title="Return to the category page" > Cancel </a>
+
+</div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete category : {{category.name}} ?</h4>
+        </div>
+        <div class="modal-footer">
+		  	<button id="delete" class="btn btn-danger" />
+				<span class="glyphicon glyphicon-remove-sign"></span> Yes, I want to delete it
+			</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Nope</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  
+  
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+	
+	// Show a confirm message before deleting this category
+	// Then with ajax delete the category and return to the category main page	
+	$("#delete").click(function(){
+		$.ajax({
+		  url: "/delete/category/{{category.id}}",
+		  type: 'POST',
+		})
+		.done(function() {
+		setTimeout(function() {
+          window.location.href = "/category";
+         }, 500);
+	});
+	});
+});
+</script>
+
+
+{% endblock %}

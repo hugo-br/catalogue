@@ -1,0 +1,31 @@
+{% extends "main.html" %}
+{% block content %}
+
+
+	<div class="row">
+		<div class="col-lg-3"></div>
+		<div class="col-lg-6">		
+			<div class="view">
+				<h1>{{candy.name}}</h1>
+				<img class="img-responsive" src="{{candy.image}}" alt="{{candy.name}}"/></br>
+				<p>{{candy.description}}</p>
+				<h4>Doctor Cavity's Score : </h4>
+				<div class="candyScore">{{candy.cavity}}</div>
+				<p> After eating this candy your teeth will look like this : </p>
+				
+				<!-- If good score show a good tooth image, else show a bad tooth image -->
+				{% if candy.cavity <= 3 %}
+					<img class="img-thumbnail" src="/static/images/tooth.png" width="150" height="200" />
+				{% else %}
+					<img class="img-thumbnail" src="/static/images/blacktooth.png" width="150" height="200" style="opacity:calc( {{candy.cavity}} / 10 );"/>	
+				{% endif %}
+				
+			</div>
+		</div>
+		<div class="col-lg-3"></div>
+	</div>
+
+
+
+
+{% endblock %}

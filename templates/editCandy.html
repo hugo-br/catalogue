@@ -1,0 +1,82 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class="edit">
+	<h1><span style="color:#46b8da;">Edit&nbsp;</span>{{candy.name}}</h1>
+	
+	<!-- Form to edit a candy -->
+	<form action="{{ url_for('editCandy', candy_id = candy.id)}}" method = 'post'>
+	<!-- Name -->
+		<p class="editTitles">Name : </p>
+		  <input type ='text' size='30' name='name' class="form-control" value = '{{candy.name}}' required/></br></br>
+	<!-- Description -->
+		<p class="editTitles">Description : </p>
+		  <textarea name='description' class="description" required>{{candy.description}}</textarea>
+		</br></br>
+	<!-- Cavity score -->
+		<p class="editTitles" >
+			Cavity Score : </p></br>
+		  <input type="range" id="cavity" name="cavity" min="0" max="10" step="0.5" value="{{candy.cavity}}" required>
+		  </br>
+		  <div class="row">
+			<div class="col-lg-4"></div>
+			<div class="editScore col-lg-4" data-toggle="tooltip" data-placement="right" title="A high score means the candy is very bad for your teeth. Low score means is not that bad!">
+		      {{candy.cavity}}</div> </br></br>
+			  
+	<!-- Category of the candy -->
+		<p class = "editTitles">Category</p>
+			<select name="category" id="category" class="form-control" required>
+			<!-- Preselect the current category -->
+			 {% for i in categories %}
+				{% if i.id == candy.category_id %}
+					<option value="{{i.id}}" selected>{{i.name}}</option>
+				{% else %}
+				 <option value="{{i.id}}">{{i.name}}</option>
+				{% endif %}
+			 {% endfor %}
+			 </select>
+			 
+		  	<div class="col-lg-4"></div>
+			
+		  </div>
+		 </br></br>
+		 <!-- Submit -->
+		<input type='submit' class="btn btn-primary" value='Edit'>
+	</form>
+</br></br>
+<!-- Cancel -->
+<a href = '/view/candy/{{candy.id}}' data-toggle="tooltip" data-placement="right" title="Return to this candy page"> Cancel </a>
+
+</div>
+
+<script>
+
+// Change the color of the score depending of his value
+	$("input[type=range]").mouseup(function() {
+		var score = $("#cavity").val();
+        $(".editScore").html( score );
+		score = Number(score);
+		if (score >= 0 && score < 2 ) {
+			 $(".editScore").css({'color':'#06EC06'});
+		}
+		else if ( score >= 2 && score < 4 ) {
+			 $(".editScore").css({'color':'#5cb85c'});
+		}
+		else if ( score >= 4 && score < 6 ) {
+			 $(".editScore").css({'color':'#5bc0de'});
+		}
+		else if ( score >= 6 && score < 8 ) {
+			 $(".editScore").css({'color':'#EF8A27'});
+		}
+		else {
+			 $(".editScore").css({'color':'#F40E17'});
+		}
+  });
+
+    $('[data-toggle="tooltip"]').tooltip();   
+
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class="container">
+  <div class="Tableheader">
+    <div><h5 onclick="orderby('name')">Name</h5></div>
+	<div>&nbsp;</div>
+	<div><h5 onclick="orderby('cavity')">Cavity Score</h5></div>
+	<div><h5 onclick="orderby('category')">Category</h5></div>
+  </div>
+  
+{% for i in query %}
+<div class="product">
+	<div class="col-md-3"><a href="{{ url_for('seeOneCandy', candy_id = i.Candy.id) }}"><span class="candyName">{{i.Candy.name}}</span></a></div>
+	<div class="col-md-3"><img src="{{i.Candy.image}}" alt="{{i.Candy.name}}" class="imgCandy" /></div>
+	<div class="col-md-3 score"><span>{{i.Candy.cavity}}</span></div>
+	<div class="col-md-3"><a href="{{ url_for('seeOneCategory', category_id = i.Category.id) }}"><span class="category-Name">{{i.Category.name}}</span></a></div>
+</div>	
+{% endfor %}
+
+</div>
+
+<script>
+// Use the filters to redirect to the right page 
+function orderby(param){
+var page = '{{ pagination.page }}';
+	switch (param) {
+		case 'name':
+			window.location.href = "/candy";
+			break;
+		case 'cavity':
+			window.location.href = "/candy?orderby=cavity";
+			break;
+		case 'category':
+			window.location.href = "/candy/page/"+page+"?orderby=categories";
+			break;
+		default:
+			break;
+	}
+}
+
+// Just a script to give a shadow-text effect
+$( document ).ready(function() {
+  $(".col-md-3.score").each(function(){
+		var score = $(this).html();
+		score= score.replace(/\<span\>|\<\/span\>/gi, "");
+		score = Number(score);
+		
+		if (score >= 0 && score < 2 ) {
+			$(this).css({'color':'#06EC06', 'text-shadow':'1px 1px 2px black, 0 0 15px #06EC06, 0 0 5px white'});
+		}
+		else if ( score >= 2 && score < 4 ) {
+			$(this).css({'color':'#5cb85c', 'text-shadow':'1px 1px 2px black, 0 0 15px #5cb85c, 0 0 5px white'});
+		}
+		else if ( score >= 4 && score < 6 ) {
+			$(this).css({'color':'#5bc0de', 'text-shadow':'1px 1px 2px black, 0 0 15px #5bc0de, 0 0 5px white'});
+		}
+		else if ( score >= 6 && score < 8 ) {
+			$(this).css({'color':'#EF8A27', 'text-shadow':'1px 1px 2px black, 0 0 15px #EF8A27, 0 0 5px white'});
+		}
+		else {
+			$(this).css({'color':'#F40E17', 'text-shadow':'1px 1px 2px black, 0 0 15px #F40E17, 0 0 5px white'});
+		}
+    });
+
+});
+
+</script>
+
+<!-- To Show or hide the paginaton -->
+{% if showPagination == 1 %}
+  <ul class="pagination" class="pagination pagination-lg">
+    
+	{% if pagination.has_prev %}
+	<li><a id="prev" href="{{ url_for_other_page(pagination.page - 1) }}">&laquo; Previous</a></li>
+	<script>
+		var strPrev = '/candy/page/{{pagination.page - 1}}' + location.search ; 
+		document.getElementById("prev").setAttribute("href", strPrev);
+	</script>
+  {% endif %}
+  
+  {%- for page in pagination.iter_pages() %}
+    {% if page %}
+      {% if page != pagination.page %}
+        <li><a id="page{{page}}" href="{{ url_for_other_page(page) }}">{{ page }}</a></li>
+		<script>
+		// For each page give a link + the location.seach
+		  var strLink = '/candy/page/{{page}}' + location.search ; 
+		  document.getElementById("page{{page}}").setAttribute("href", strLink);
+		</script>
+      {% else %}
+	   <!-- Current Page -->
+        <li><a href="#">{{ page }}</a></li>
+      {% endif %}
+    {% endif %}
+  {%- endfor %}
+
+  <!-- If has next -->
+  {% if pagination.has_next %}
+    <li><a id="next" href="{{ url_for_other_page(pagination.page + 1)}}">Next &raquo;</a></li>
+		<script>
+		  var strNext = '/candy/page/{{pagination.page + 1}}' + location.search ; 
+		  document.getElementById("next").setAttribute("href", strNext);
+		</script>
+  {% endif %}
+
+  </ul>
+{% endif %}
+
+
+{% endblock %}

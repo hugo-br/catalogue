@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+{% block content %}
+
+ <div id="category-page">
+	<h2> Categories of candies </h2>
+	<div class="container">
+	<!-- Show every categories -->
+	{% for category in categories %}
+	<a href="{{ url_for('seeOneCategory', category_id = category.id) }}">
+	  <div class="col-lg-4 col-md-6 category"> 
+	    <img src="{{category.image}}" alt="{{category.name}}" class="CategoryImg"/>
+        <span class="category-name-page">{{category.name}}</span>
+	  </div>
+	</a>
+	{% endfor %}
+	</div>
+ </div>
+
+
+{% endblock %}

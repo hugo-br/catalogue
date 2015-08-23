@@ -1,0 +1,71 @@
+{% extends "main.html" %}
+{% block content %}
+
+
+<div class="edit">
+	<h1>Do you <span style="color:#d43f3a;">really want to delete</span> this candy :</br> {{candy.name}} ? </h1>
+	<form action="#" method = 'post' id="deletecandy">
+	<!-- Information about this candy -->
+		<p><span class="editTitles">Name:</span> {{candy.name}} </p>
+		</br>
+		<p><span class="editTitles">Description : </span><br>
+		{{candy.description}}</p>
+		</br></br></br>
+	</form>
+</br></br>
+
+<!-- On click a model pop-up will be shown for confirmation -->
+   <button data-toggle="modal" data-target="#myModal" class="btn btn-danger"/>
+	  <span class="glyphicon glyphicon-remove-sign"></span> Delete
+	</button>
+	</br></br>
+	
+	<!-- Cancel button -->
+	 <a href = '/view/candy/{{candy.id}}'data-toggle="tooltip" data-placement="right" title="Return to the candy page" > Cancel </a>
+</div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Want to delete : {{candy.name}} ?</h4>
+        </div>
+        <div class="modal-footer">
+		  	<button id="delete" class="btn btn-danger" />
+				<span class="glyphicon glyphicon-remove-sign"></span> Yes, I want to delete it
+			</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Nope</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  
+  
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+	
+	// Show a confirm message before deleting an item
+	// Then with ajax delete the category and return to the candy main page
+	$("#delete").click(function(){
+		$.ajax({
+		  url: "/delete/candy/{{candy.id}}",
+		  type: 'POST',
+		})
+		.done(function() {
+		setTimeout(function() {
+          window.location.href = "/candy";
+         }, 500);
+		});
+	});
+});
+</script>
+
+
+{% endblock %}

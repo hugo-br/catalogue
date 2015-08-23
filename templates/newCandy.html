@@ -1,0 +1,104 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class="row">
+  <div class="col-lg-4"></div>
+  <div class="col-lg-4">
+	 <h1><span style="color:#5cb85c;">Add</span> a new Candy</h1>
+
+	 <!-- Form to add a candy -->
+  <form action="#" method = 'post' enctype="multipart/form-data">
+	 <!-- Name -->
+	   <p class="editTitles">Name:</p>
+		<input type ='text' size='30' name='name' placeholder = 'Enter a name' class="form-control" required/></br></br>
+		
+	<!-- Description -->
+		<p class="editTitles">Description : </p>
+		
+	<!-- Category -->
+		<textarea placeholder='Description of the candy'  name='description' class="description" required/></textarea></br></br>
+		<p class="editTitles"> Category : </p>
+		
+	<!-- To bind a category -->
+		<div class="form-group">
+			 <select name="category" id="category" class="form-control" required>
+			 {% for category in categories %} <!-- Do a loop -->
+				  <option value="{{category.id}}">{{category.name}}</option>
+			 {% endfor %}
+			 </select>
+		</div></br></br>
+	
+	<!-- Cavity Score -->	
+	<p class="editTitles">Cavity Score : </p>
+		 <input type="range" id="points" name="points" min="0" max="10" step="0.5" required>
+	<div class="row">
+		<div class="col-lg-4"></div>
+		<div class="col-lg-4 editScore" data-toggle="tooltip" data-placement="right"
+		title="A high score means the candy is very bad for your teeth. Low score means is not that bad!">
+		</div>
+		<div class="col-lg-4"></div>	
+	</div></br>	 
+	
+	<!-- Picture Path -->
+	<p class="editTitles" data-toggle="tooltip" data-placement="top"
+	title="First, you must put the image in the server. The path file for category must be '/static/images/candy/'. Add the name file at the end of the path in the input below.">Path of the picture : </p>
+		<input type ='text' name='image' value="/static/images/candy/" 
+		class="form-control" pattern="^/static/images/candy/(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\.(?:jpg|gif|png))(?:\?([^#]*))?(?:#(.*))?" />
+		</br></br>
+		
+	<!-- Submit + Reset buttons -->
+	<input type='submit' class="btn btn-success" value='Add Candy'> &nbsp;&nbsp;&nbsp;&nbsp;
+	<button type="btn btn-default" id="reset"/>Reset</button>
+	
+  </form></br></br> <!-- End of Form -->
+  
+  <a href ="{{ url_for('showCandies') }}"> Cancel </a> </br></br></br></br>
+ 
+</div>
+
+<div class="col-lg-4">
+</div>
+
+<script>
+$(document).ready(function(){
+// For th tooltip
+    $('[data-toggle="tooltip"]').tooltip();   
+	
+// Function to reset the form	
+$("#reset").click(function(){
+	$("input[type=text], textarea ").each(function(){
+		$(this).val("");
+	})
+});	
+
+// If a score is low show a green color
+// If a score is high show a red color
+// In between show orange or blue
+
+$("input[type=range]").mouseup(function() {
+		var score = $("#points").val();
+        $(".editScore").html( score );
+		score = Number(score);
+		if (score >= 0 && score < 2 ) {
+			 $(".editScore").css({'color':'#06EC06'});
+		}
+		else if ( score >= 2 && score < 4 ) {
+			 $(".editScore").css({'color':'#5cb85c'});
+		}
+		else if ( score >= 4 && score < 6 ) {
+			 $(".editScore").css({'color':'#5bc0de'});
+		}
+		else if ( score >= 6 && score < 8 ) {
+			 $(".editScore").css({'color':'#EF8A27'});
+		}
+		else {
+			 $(".editScore").css({'color':'#F40E17'});
+		}
+  });	
+});
+
+</script>
+
+
+
+{% endblock %}

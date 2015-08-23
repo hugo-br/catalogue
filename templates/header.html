@@ -1,0 +1,64 @@
+<div class="container">
+	<div id="navBar">
+		<div class="row">
+			<div class="col-sm-4">
+			  <img id="dentist" src = "/static/images/dentist.png" />
+			</div>
+			<div class="col-sm-4 header-col-2">
+				With
+				<h2 id="dr-cavity-header">Dr. Cavity </h2>
+				Choose your candies wisely
+			</div>
+			<div class="col-sm-4 header-col-3">
+			  THE WORLD'S LARGEST CANDIES REPERTOIRE      
+			</div>
+		  </div>
+	  </div>
+</div>
+
+<!-- Navigation Menu -->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+	  <img id="logo-head" src="/static/images/tooth-icon.png"/> <!-- Logo image -->
+      <a class="navbar-brand" href="/">Dr. Cavity</a>
+    </div>
+	
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="{{url_for('showCategories')}}">Categories</a></li>
+        <li><a href="{{url_for('showCandies')}}">Candies</a></li>
+		<li id="Good"><a href="/candy?orderby=good"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp; The Good</a></li>
+		<li id="Bad"><a href="/candy?orderby=bad"><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;  The Bad ...</a></li>
+		<li id="Worst"><a href="/candy?orderby=worst"><span class="glyphicon glyphicon-fire"></span>&nbsp; And The Worst</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li id="login"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{%if 'username' not in session %}
+
+
+{% else %}
+
+	<script>
+	// Show the options to see the profil and disconnect
+	// Change the login button for a profil button
+	 $("#login").html('<a data-toggle="dropdown" id="menuOptions"><span class="glyphicon glyphicon-user">\
+	 </span>&nbsp;Options</a><ul class="dropdown-menu" role="menu" aria-labelledby="menu1"><li role="presentation">\
+	 <a role="menuitem" tabindex="-1" href="/profil">See profil</a></li><li role="presentation" id="disconnect">\
+	 <a role="menuitem" tabindex="-1" href="/disconnect">Disconnect</a></li>');
+	 $("#login").css({"cursor":"pointer"});
+	</script>
+
+{% endif %}
+			
+			

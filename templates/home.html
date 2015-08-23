@@ -1,0 +1,44 @@
+{% extends "main.html" %}
+{% block content %}
+
+
+<div class="row">
+	<div class="col-md-1"></div>
+	
+	<!-- Left Column -->
+	<div class="col-md-3 left-home">
+	<h3>RANK THEM</h3>
+		<p>Score any candy by the risk of cavities they provide to the teeth.
+		Now with super-science from Dr. Cavity we know which candies are : </p>
+		<ul class="list-group home-list">
+		  <a href="/candy?orderby=good"><li class="list-group-item">The Good Ones &nbsp;<span class="glyphicon glyphicon-chevron-right"></span></li></a>
+		  <a href="/candy?orderby=bad"><li class="list-group-item">The Bad Ones &nbsp;<span class="glyphicon glyphicon-chevron-right"></span></li></a>
+		  <a href="/candy?orderby=worst"><li class="list-group-item">Or The Worst &nbsp;<span class="glyphicon glyphicon-chevron-right"></span>
+		  </br> <small>(and you don't want to eat them)</small></li></a>
+		</ul>
+	</div>
+	
+	<!-- Center Column -->
+	<div class="col-md-4 middle-home">
+		<h1>FIGHT THE CAVITIES</h1>
+			<img src="/static/images/home2.png" class="img-responsive" width="278"/>
+		<h2>WITH DR.CAVITY</h2>
+	</div>
+	
+	<!-- Right Column -->
+	<div class="col-md-3 right-home">
+		<h3>CHOOSE THEM</h3>
+		<p>Choose the best cavity-friendly candy next time you buy them because cavities are no joke, they hurt so bad </p>
+		<ul class="list-group home-list">
+			<a href="/category"><li class="list-group-item">See the categories &nbsp;<span class="glyphicon glyphicon-chevron-right"></span></li></a>
+			<a href="/candy"><li class="list-group-item">See the candies &nbsp;<span class="glyphicon glyphicon-chevron-right"></span></li></a>
+		</ul>
+		
+	</div>
+	<div class="col-md-1"></div>
+
+
+</div>
+
+
+{% endblock %}

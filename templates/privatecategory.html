@@ -1,0 +1,67 @@
+{% extends "main.html" %}
+{% block content %}
+<div id="category-page">
+
+<!-- Options for adding a new category, delete it or edit it for logged users only -->
+<div class="row">
+  <div class="col-lg-2"></div>
+  <div class="col-lg-8">
+  
+    <!-- Add a Category -->
+  	<button type="button" class="btn btn-success" id="addCategory"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;&nbsp;Add a Category</button>
+	
+	<!-- Edit a category button -->  
+	  <div class="dropdown">
+		<button class="btn btn-info dropdown-toggle" id="menuEdit" type="button" data-toggle="dropdown">
+		<span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
+		Edit a Category
+		<span class="caret"></span></button>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="menuEdit">
+		{% for j in categories %}
+		  <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ url_for('editCategory', category_id = j.id) }}">{{j.name}}</a></li>  
+		{% endfor %}
+		</ul>
+	  </div>
+	  
+	<!-- Delete a category button --> 
+	 <div class="dropdown">
+		<button class="btn btn-danger dropdown-toggle" id="menuDelete" type="button" data-toggle="dropdown">
+		<span class="glyphicon glyphicon-minus-sign"></span>&nbsp;&nbsp;
+		Delete a Category
+		<span class="caret"></span></button>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="menuDelete">
+		{% for i in categories %}
+		  <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ url_for('deleteCategory', category_id = i.id) }}">{{i.name}}</a></li>  
+		{% endfor %}
+		</ul>
+	  </div>
+  </div>
+  
+  <div class="col-lg-2"></div>
+</div>
+
+	<!-- Show all the categories -->
+	<h2> Categories of candies </h2>
+	<div class="container">
+		{% for category in categories %}
+		<a href="{{ url_for('seeOneCategory', category_id = category.id) }}">
+		  <div class="col-lg-4 col-md-6 category"> 
+			  <img src="{{category.image}}" alt="{{category.name}}" class="CategoryImg"/>
+			  <span class="category-name-page">{{category.name}}</span>
+		  </div>
+		</a>
+	{% endfor %}
+	</div>
+</div>
+
+<script>
+
+// Go to new category page
+ $("#addCategory").click(function(){
+	window.location.href = "/new/category";
+ });
+ 
+</script>
+
+
+{% endblock %}
