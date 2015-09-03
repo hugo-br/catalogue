@@ -8,3 +8,4 @@ pip install Flask-Login==0.1.3
 pip install oauth2client
 pip install requests
 pip install httplib2
+pip install bleach
