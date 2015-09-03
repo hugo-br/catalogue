@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from flask import Flask, render_template, request, make_response
 from flask import redirect, jsonify, url_for, flash, Response, json
 from flask import session as login_session
